@@ -1,0 +1,41 @@
+Notes for Pruuart:
+
+Hardware:
+
+Beaglebone Black A5
+ADAFRUIT Ultimate GPS
+
+Software:
+
+Angstrom version of Linux as shipped.
+gcc
+
+Texas Instruments "am335x_pru_package-master"
+pasm (PRUSS assembler)
+
+Hardware connections:
+
+
+pin p9.4 on BBB to VIN on GPS
+pin p8.1 on BBB to GND on GPS
+pin p9.17 on BBB to Rx on GPS
+pin p9.18 on BBB to Tx on GPS
+
+
+Devicetree:
+
+pruuart-00A0.dts - enables the PRUSS and:
+
+                               configures P9.17 (ofset 0x95C) for PRU output.
+                               Mode 4, Input = 0x04
+
+                               configures P9.18 (ofset 0x958) for PRU input.
+                               Mode 4, Output = 0x24
+
+Program:
+
+pt.c - initializes the PRU, waits for signal from PRUSS, reads data from PRU0 local data memory and prints the data
+
+pt.p - initalizes the PRU uart, reads data until nl, on receipt of nl, writes terminating NULL and signals the linux side
+
+
